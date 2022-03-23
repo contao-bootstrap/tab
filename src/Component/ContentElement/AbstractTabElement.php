@@ -29,7 +29,7 @@ use Netzmacht\Contao\Toolkit\Component\ContentElement\AbstractContentElement;
 use Netzmacht\Contao\Toolkit\Routing\RequestScopeMatcher;
 use Netzmacht\Contao\Toolkit\View\Template\TemplateReference as ToolkitTemplateReference;
 use Symfony\Component\Templating\EngineInterface as TemplateEngine;
-use Symfony\Component\Translation\TranslatorInterface as Translator;
+use Symfony\Contracts\Translation\TranslatorInterface as Translator;
 
 /**
  * Class AbstractTabElement
@@ -41,35 +41,35 @@ abstract class AbstractTabElement extends AbstractContentElement
      *
      * @var ColorRotate
      */
-    private $colorRotate;
+    private ColorRotate $colorRotate;
 
     /**
      * Request scope matcher.
      *
      * @var RequestScopeMatcher
      */
-    private $scopeMatcher;
+    private RequestScopeMatcher $scopeMatcher;
 
     /**
      * Tab registry.
      *
      * @var TabRegistry
      */
-    private $tabRegistry;
+    private TabRegistry $tabRegistry;
 
     /**
      * Grid provider.
      *
      * @var GridProvider|null
      */
-    private $gridProvider;
+    private ?GridProvider $gridProvider;
 
     /**
      * The translator.
      *
      * @var Translator
      */
-    private $translator;
+    private Translator $translator;
 
     /**
      * AbstractContentElement constructor.

@@ -30,14 +30,14 @@ final class TabRegistry
      *
      * @var array|Navigation[]
      */
-    private $navigations = [];
+    private array $navigations = [];
 
     /**
      * Cached navigation iterators.
      *
      * @var NavigationIterator[]
      */
-    private $iterators = [];
+    private array $iterators = [];
 
     /**
      * Get a navigation.

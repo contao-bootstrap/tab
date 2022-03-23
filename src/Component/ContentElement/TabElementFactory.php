@@ -25,7 +25,7 @@ use Netzmacht\Contao\Toolkit\Component\ComponentFactory;
 use Netzmacht\Contao\Toolkit\Component\Exception\ComponentNotFound;
 use Netzmacht\Contao\Toolkit\Routing\RequestScopeMatcher;
 use Symfony\Component\Templating\EngineInterface as TemplateEngine;
-use Symfony\Component\Translation\TranslatorInterface as Translator;
+use Symfony\Contracts\Translation\TranslatorInterface as Translator;
 
 /**
  * Class TabElementFactory
@@ -39,7 +39,7 @@ final class TabElementFactory implements ComponentFactory
      *
      * @var array
      */
-    private $tabElements = [
+    private array $tabElements = [
         'bs_tab_start'     => TabStartElement::class,
         'bs_tab_separator' => TabSeparatorElement::class,
         'bs_tab_end'       => TabEndElement::class,
@@ -50,42 +50,42 @@ final class TabElementFactory implements ComponentFactory
      *
      * @var TemplateEngine
      */
-    private $templateEngine;
+    private TemplateEngine $templateEngine;
 
     /**
      * Color rotate.
      *
      * @var ColorRotate
      */
-    private $colorRotate;
+    private ColorRotate $colorRotate;
 
     /**
      * Request scope matcher.
      *
      * @var RequestScopeMatcher
      */
-    private $scopeMatcher;
+    private RequestScopeMatcher $scopeMatcher;
 
     /**
      * Tab registry.
      *
      * @var TabRegistry
      */
-    private $tabRegistry;
+    private TabRegistry $tabRegistry;
 
     /**
      * Translator.
      *
      * @var Translator
      */
-    private $translator;
+    private Translator $translator;
 
     /**
      * Grid provider.
      *
      * @var GridProvider|null
      */
-    private $gridProvider;
+    private ?GridProvider $gridProvider;
 
     /**
      * PanelElementFactory constructor.

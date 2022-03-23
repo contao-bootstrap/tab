@@ -29,7 +29,7 @@ final class Navigation implements ItemList
      *
      * @var array
      */
-    private $items = [];
+    private array $items = [];
 
     /**
      * Create instance from a serialized definition

@@ -30,35 +30,35 @@ final class NavigationIterator implements \Iterator
      *
      * @var Navigation
      */
-    private $navigation;
+    private Navigation $navigation;
 
     /**
      * Current items of the tab navigation.
      *
      * @var NavItem[]
      */
-    private $items;
+    private array $items;
 
     /**
      * Nav items.
      *
      * @var NavItem[]
      */
-    private $dropdownItems;
+    private array $dropdownItems;
 
     /**
      * Current nav item.
      *
      * @var NavItem|null
      */
-    private $currentItem;
+    private ?NavItem $currentItem;
 
     /**
      * Current dropdown item.
      *
      * @var NavItem|null
      */
-    private $currentDropdownItem;
+    private ?NavItem $currentDropdownItem;
 
     /**
      * NavigationIterator constructor.

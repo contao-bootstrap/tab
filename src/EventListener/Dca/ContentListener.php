@@ -17,7 +17,7 @@ namespace ContaoBootstrap\Tab\EventListener\Dca;
 
 use Contao\ContentModel;
 use Contao\CoreBundle\Framework\Adapter;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface as ContaoFramework;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\Model;
@@ -35,7 +35,7 @@ final class ContentListener
      *
      * @var ContaoFramework
      */
-    private $framework;
+    private ContaoFramework $framework;
 
     /**
      * Content Model repository.

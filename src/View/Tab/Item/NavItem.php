@@ -27,28 +27,28 @@ class NavItem
      *
      * @var string
      */
-    private $title;
+    private string $title;
 
     /**
      * Css id.
      *
      * @var string
      */
-    private $cssId;
+    private string $cssId;
 
     /**
      * Nav css id.
      *
      * @var string
      */
-    private $navCssId;
+    private string $navCssId;
 
     /**
      * Active item.
      *
      * @var bool
      */
-    private $active;
+    private bool $active;
 
     /**
      * Item constructor.
