@@ -23,9 +23,7 @@ final class ContentFixParentRelationListener
      */
     private RepositoryManager $repositoryManager;
 
-    /**
-     * @param RepositoryManager $repositoryManager Repository manager.
-     */
+    /** @param RepositoryManager $repositoryManager Repository manager. */
     public function __construct(RepositoryManager $repositoryManager)
     {
         $this->repositoryManager = $repositoryManager;
@@ -64,7 +62,7 @@ final class ContentFixParentRelationListener
      *
      * @Callback(table="tl_content", target="config.oncopy")
      */
-    public function onCopy($elementId): void
+    public function onCopy(int|string $elementId): void
     {
         $contentModel = $this->repositoryManager->getRepository(ContentModel::class)->find((int) $elementId);
         if (! $contentModel instanceof ContentModel) {
@@ -79,7 +77,7 @@ final class ContentFixParentRelationListener
      *
      * @param ContentModel|Result $contentModel Content element.
      */
-    private function fixContentElement($contentModel): void
+    private function fixContentElement(ContentModel|Result $contentModel): void
     {
         if (! in_array($contentModel->type, ['bs_tab_separator', 'bs_tab_end'], true)) {
             return;
@@ -98,7 +96,7 @@ final class ContentFixParentRelationListener
             ],
             [
                 'id' => $contentModel->id,
-            ]
+            ],
         );
     }
 
@@ -109,7 +107,7 @@ final class ContentFixParentRelationListener
      *
      * @psalm-suppress MoreSpecificReturnType
      */
-    private function loadClosestTabStartModel($contentModel): ?ContentModel
+    private function loadClosestTabStartModel(ContentModel|Result $contentModel): ContentModel|null
     {
         $constraints = ['.pid=?', '.type=?', '.sorting < ?'];
         $values      = [$contentModel->pid, 'bs_tab_start', $contentModel->sorting];

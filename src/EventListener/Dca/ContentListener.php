@@ -26,16 +26,12 @@ final class ContentListener extends AbstractListener
     // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
     protected static $name = 'tl_content';
 
-    private RepositoryManager $repositories;
-
-    private AssetsManager $assetsManager;
-
-    public function __construct(DcaManager $dcaManager, RepositoryManager $repositories, AssetsManager $assetsManager)
-    {
+    public function __construct(
+        DcaManager $dcaManager,
+        private readonly RepositoryManager $repositories,
+        private readonly AssetsManager $assetsManager,
+    ) {
         parent::__construct($dcaManager);
-
-        $this->repositories  = $repositories;
-        $this->assetsManager = $assetsManager;
     }
 
     /**
@@ -53,7 +49,7 @@ final class ContentListener extends AbstractListener
 
         $this->getDefinition()->modify(
             ['fields', 'bs_grid', 'load_callback'],
-            static function (?array $value): array {
+            static function (array|null $value): array {
                 $value   = (array) $value;
                 $value[] = [
                     'contao_bootstrap.tab.listener.dca.content',
@@ -61,7 +57,7 @@ final class ContentListener extends AbstractListener
                 ];
 
                 return $value;
-            }
+            },
         );
     }
 
@@ -73,7 +69,7 @@ final class ContentListener extends AbstractListener
      * @SuppressWarnings(PHPMD.Superglobals)
      * @Callback(table="tl_content", target="fields.bs_tab_parent.options")
      */
-    public function getTabParentOptions(): array
+    public function getTabParentOptions(DataContainer $dataContainer): array
     {
         $columns = [
             'tl_content.type = ?',
@@ -81,10 +77,9 @@ final class ContentListener extends AbstractListener
             'tl_content.ptable = ?',
         ];
 
-        /** @psalm-suppress UndefinedConstant */
         $values = [
             'bs_tab_start',
-            CURRENT_ID,
+            $dataContainer->currentPid,
             $this->getDefinition()->get(['config', 'ptable']),
         ];
 
@@ -96,7 +91,7 @@ final class ContentListener extends AbstractListener
                 $options[$model->id] = sprintf(
                     '%s [%s]',
                     $model->bs_tab_name,
-                    $model->id
+                    $model->id,
                 );
             }
         }
@@ -109,10 +104,8 @@ final class ContentListener extends AbstractListener
      *
      * @param mixed              $value         The field value.
      * @param DataContainer|null $dataContainer The data container driver.
-     *
-     * @return mixed
      */
-    public function configureGridField($value, ?DataContainer $dataContainer)
+    public function configureGridField(mixed $value, DataContainer|null $dataContainer): mixed
     {
         if ($dataContainer && $dataContainer->activeRecord && $dataContainer->activeRecord->type === 'bs_tab_start') {
             $this->getDefinition()->set(['fields', 'bs_grid', 'eval', 'mandatory'], false);
@@ -158,7 +151,7 @@ final class ContentListener extends AbstractListener
      * @param mixed               $definition The tab definitions.
      * @param ContentModel|Result $current    The current content model.
      */
-    private function countRequiredSeparators($definition, $current): int
+    private function countRequiredSeparators(mixed $definition, ContentModel|Result $current): int
     {
         $definition = StringUtil::deserialize($definition, true);
         $count      = -1;
@@ -188,7 +181,7 @@ final class ContentListener extends AbstractListener
      * @param ContentModel|Result $current Current model.
      * @param int                 $sorting Current sorting value.
      */
-    protected function createSeparators(int $value, $current, int $sorting): int
+    protected function createSeparators(int $value, ContentModel|Result $current, int $sorting): int
     {
         for ($count = 1; $count <= $value; $count++) {
             $sorting += 8;
@@ -224,7 +217,7 @@ final class ContentListener extends AbstractListener
      * @param ContentModel|Result $current Model.
      * @param int                 $sorting Last sorting value.
      */
-    protected function createStopElement($current, int $sorting): ContentModel
+    protected function createStopElement(ContentModel|Result $current, int $sorting): ContentModel
     {
         $sorting += 8;
 
@@ -238,7 +231,7 @@ final class ContentListener extends AbstractListener
      * @param string              $type    Type of the content model.
      * @param int                 $sorting The sorting value.
      */
-    protected function createTabElement($current, string $type, int &$sorting): ContentModel
+    protected function createTabElement(ContentModel|Result $current, string $type, int &$sorting): ContentModel
     {
         $model                = new ContentModel();
         $model->tstamp        = time();
@@ -259,7 +252,7 @@ final class ContentListener extends AbstractListener
      *
      * @return ContentModel[]
      */
-    protected function getNextElements($current): array
+    protected function getNextElements(ContentModel|Result $current): array
     {
         $collection = $this->repositories->getRepository(ContentModel::class)->findBy(
             [
@@ -268,7 +261,7 @@ final class ContentListener extends AbstractListener
                 'tl_content.sorting > ?',
             ],
             [$current->ptable, $current->pid, $current->sorting],
-            ['order' => 'tl_content.sorting ASC']
+            ['order' => 'tl_content.sorting ASC'],
         );
 
         if ($collection) {
@@ -283,11 +276,11 @@ final class ContentListener extends AbstractListener
      *
      * @param ContentModel|Result $current Current element.
      */
-    protected function getStopElement($current): ContentModel
+    protected function getStopElement(ContentModel|Result $current): ContentModel
     {
         $stopElement = $this->repositories->getRepository(ContentModel::class)->findOneBy(
             ['tl_content.type=?', 'tl_content.bs_tab_parent=?'],
-            ['bs_tab_end', $current->id]
+            ['bs_tab_end', $current->id],
         );
 
         if ($stopElement instanceof ContentModel) {

@@ -16,8 +16,12 @@ use function rtrim;
 final class TabStartElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */
-    protected function preGenerate(Request $request, Model $model, string $section, ?array $classes = null): ?Response
-    {
+    protected function preGenerate(
+        Request $request,
+        Model $model,
+        string $section,
+        array|null $classes = null,
+    ): Response|null {
         if (! $this->isBackendRequest($request)) {
             return null;
         }
@@ -51,7 +55,7 @@ final class TabStartElementController extends AbstractTabElementController
         return $data;
     }
 
-    protected function getParent(ContentModel $model): ?ContentModel
+    protected function getParent(ContentModel $model): ContentModel|null
     {
         return $model;
     }

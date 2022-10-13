@@ -37,12 +37,12 @@ final class NavigationIterator implements Iterator
     /**
      * Current nav item.
      */
-    private ?NavItem $currentItem;
+    private NavItem|null $currentItem;
 
     /**
      * Current dropdown item.
      */
-    private ?NavItem $currentDropdownItem;
+    private NavItem|null $currentDropdownItem;
 
     public function __construct(Navigation $navigation)
     {
@@ -63,7 +63,7 @@ final class NavigationIterator implements Iterator
     /**
      * Get the current item.
      */
-    public function current(): ?NavItem
+    public function current(): NavItem|null
     {
         if ($this->currentItem instanceof Dropdown) {
             return $this->currentDropdownItem;
@@ -99,11 +99,9 @@ final class NavigationIterator implements Iterator
     /**
      * Get the key. Not supported.
      *
-     * @return mixed|void
-     *
      * @throws RuntimeException Method is not supported.
      */
-    public function key()
+    public function key(): mixed
     {
         throw new RuntimeException('Method key() not supported.');
     }

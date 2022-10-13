@@ -15,16 +15,18 @@ use function rtrim;
 final class TabSeparatorElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */
-    protected function preGenerate(Request $request, Model $model, string $section, ?array $classes = null): ?Response
-    {
+    protected function preGenerate(
+        Request $request,
+        Model $model,
+        string $section,
+        array|null $classes = null,
+    ): Response|null {
         if (! $this->isBackendRequest($request)) {
             return null;
         }
 
         $iterator = $this->getIterator($model);
-        if ($iterator) {
-            $iterator->next();
-        }
+        $iterator?->next();
 
         return $this->renderContentBackendView($this->getParent($model), $iterator);
     }

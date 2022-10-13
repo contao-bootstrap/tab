@@ -50,7 +50,7 @@ final class RegisterFixContentParentRelationsFixerListener
     {
         try {
             $definition = $this->dcaManager->getDefinition($tableName);
-        } catch (AssertionFailed $exception) {
+        } catch (AssertionFailed) {
             return;
         }
 
@@ -90,7 +90,7 @@ final class RegisterFixContentParentRelationsFixerListener
                 $value[] = [ParentFixContentParentRelationsListener::class, 'onCopy'];
 
                 return $value;
-            }
+            },
         );
     }
 }

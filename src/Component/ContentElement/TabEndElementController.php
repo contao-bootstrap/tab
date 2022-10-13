@@ -13,13 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 final class TabEndElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */
-    protected function preGenerate(Request $request, Model $model, string $section, ?array $classes = null): ?Response
-    {
+    protected function preGenerate(
+        Request $request,
+        Model $model,
+        string $section,
+        array|null $classes = null,
+    ): Response|null {
         if (! $this->isBackendRequest($request)) {
             $iterator = $this->getIterator($model);
-            if ($iterator) {
-                $iterator->rewind();
-            }
+            $iterator?->rewind();
 
             return null;
         }
