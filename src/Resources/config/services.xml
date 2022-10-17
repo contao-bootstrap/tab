@@ -6,16 +6,40 @@
     <services>
         <service id="contao_bootstrap.tab.tab_registry" class="ContaoBootstrap\Tab\View\Tab\TabRegistry" />
 
-        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabElementFactory" >
-            <argument type="service" id="templating" />
-            <argument type="service" id="translator" />
-            <argument type="service" id="contao_bootstrap.core.helper.color_rotate" />
-            <argument type="service" id="netzmacht.contao_toolkit.routing.scope_matcher" />
-            <argument type="service" id="contao_bootstrap.tab.tab_registry" />
-            <tag name="netzmacht.contao_toolkit.component.content_element_factory" />
-            <tag name="netzmacht.contao_toolkit.component.content_element" category="bootstrap_tabs" alias="bs_tab_start" />
-            <tag name="netzmacht.contao_toolkit.component.content_element" category="bootstrap_tabs" alias="bs_tab_separator" />
-            <tag name="netzmacht.contao_toolkit.component.content_element" category="bootstrap_tabs" alias="bs_tab_end" />
+        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabEndElementController">
+            <argument type="service" id="netzmacht.contao_toolkit.template_renderer"/>
+            <argument type="service" id="netzmacht.contao_toolkit.routing.scope_matcher"/>
+            <argument type="service" id="netzmacht.contao_toolkit.response_tagger"/>
+            <argument type="service" id="contao.security.token_checker"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="contao_bootstrap.core.helper.color_rotate"/>
+            <argument type="service" id="contao_bootstrap.tab.tab_registry"/>
+            <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
+            <argument type="service" id="contao_bootstrap.grid.grid_provider" on-invalid="ignore"/>
+        </service>
+
+        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabSeparatorElementController">
+            <argument type="service" id="netzmacht.contao_toolkit.template_renderer"/>
+            <argument type="service" id="netzmacht.contao_toolkit.routing.scope_matcher"/>
+            <argument type="service" id="netzmacht.contao_toolkit.response_tagger"/>
+            <argument type="service" id="contao.security.token_checker"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="contao_bootstrap.core.helper.color_rotate"/>
+            <argument type="service" id="contao_bootstrap.tab.tab_registry"/>
+            <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
+            <argument type="service" id="contao_bootstrap.grid.grid_provider" on-invalid="ignore"/>
+        </service>
+
+        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabStartElementController">
+            <argument type="service" id="netzmacht.contao_toolkit.template_renderer"/>
+            <argument type="service" id="netzmacht.contao_toolkit.routing.scope_matcher"/>
+            <argument type="service" id="netzmacht.contao_toolkit.response_tagger"/>
+            <argument type="service" id="contao.security.token_checker"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="contao_bootstrap.core.helper.color_rotate"/>
+            <argument type="service" id="contao_bootstrap.tab.tab_registry"/>
+            <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
+            <argument type="service" id="contao_bootstrap.grid.grid_provider" on-invalid="ignore"/>
         </service>
     </services>
 </container>
