@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Contao Bootstrap
- *
- * @package    contao-bootstrap
- * @subpackage Tab
- * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2020 netzmacht David Molineus. All rights reserved.
- * @license    LGPL-3.0-or-later https://github.com/contao-bootstrap/tab/blob/master/LICENSE
- * @filesource
- */
-
 declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\Component\ContentElement;
@@ -27,11 +16,6 @@ use Netzmacht\Contao\Toolkit\Routing\RequestScopeMatcher;
 use Symfony\Component\Templating\EngineInterface as TemplateEngine;
 use Symfony\Contracts\Translation\TranslatorInterface as Translator;
 
-/**
- * Class TabElementFactory
- *
- * @package ContaoBootstrap\Tab\Component\ContentElement
- */
 final class TabElementFactory implements ComponentFactory
 {
     /**

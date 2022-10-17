@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Contao Bootstrap
- *
- * @package    contao-bootstrap
- * @subpackage Tab
- * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2020 netzmacht David Molineus. All rights reserved.
- * @license    LGPL-3.0-or-later https://github.com/contao-bootstrap/tab/blob/master/LICENSE
- * @filesource
- */
-
 declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\View\Tab;
@@ -19,15 +8,14 @@ use Contao\StringUtil;
 use ContaoBootstrap\Tab\View\Tab\Item\Dropdown;
 use ContaoBootstrap\Tab\View\Tab\Item\NavItem;
 
-/**
- * Class Navigation
- */
+use function in_array;
+
 final class Navigation implements ItemList
 {
     /**
      * Navigation items.
      *
-     * @var array
+     * @var NavItem[]
      */
     private array $items = [];
 
@@ -47,7 +35,7 @@ final class Navigation implements ItemList
         $cssIds     = [];
 
         foreach ($definition as $index => $tab) {
-            if (!$tab['cssId']) {
+            if (! $tab['cssId']) {
                 $tab['cssId']  = StringUtil::standardize($tab['title']);
                 $tab['cssId'] .= '-' . $tabId;
 
@@ -74,9 +62,6 @@ final class Navigation implements ItemList
         return $navigation;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addItem(NavItem $item): ItemList
     {
         $this->items[] = $item;
