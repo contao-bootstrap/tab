@@ -7,7 +7,7 @@
 <?php $this->endblock(); ?>
 
 <?php if ($this->grid): ?>
-<div class="row">
+<div class="<?= $this->grid->row() ?>">
     <div class="<?= $this->grid->current(); $this->grid->next() ?>">
 <?php endif ?>
 
