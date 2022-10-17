@@ -32,7 +32,7 @@
   "require": {
     "php": "^7.4 || ^8.1",
     "beberlei/assert": "^2.9 || ^3.0",
-    "contao-bootstrap/core": "~2.0",
+    "contao-bootstrap/core": "^2.1",
     "contao-community-alliance/meta-palettes": "~2.0 || ~1.11",
     "contao/core-bundle": "^4.9",
     "doctrine/dbal": "^2.11 || ^3.0",
@@ -43,8 +43,6 @@
     "symfony/dependency-injection": "~4.4 || ^5.4",
     "symfony/http-foundation": "~4.4 || ^5.4",
     "symfony/http-kernel": "~4.4 || ^5.4",
-    "symfony/templating": "~4.4 || ^5.4",
-    "symfony/translation": "~4.4 || ^5.4",
     "symfony/translation-contracts": "^1.1 || ^2.0"
   },
   "require-dev": {
