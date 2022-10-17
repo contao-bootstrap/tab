@@ -6,8 +6,8 @@
  * @package    contao-bootstrap
  * @subpackage Tab
  * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2018 netzmacht David Molineus. All rights reserved.
- * @license    LGPL-3.0 https://github.com/contao-bootstrap/tab
+ * @copyright  2013-2020 netzmacht David Molineus. All rights reserved.
+ * @license    LGPL-3.0-or-later https://github.com/contao-bootstrap/tab/blob/master/LICENSE
  * @filesource
  */
 

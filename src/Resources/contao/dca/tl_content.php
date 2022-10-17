@@ -1,29 +1,6 @@
 <?php
 
-/**
- * Contao Bootstrap
- *
- * @package    contao-bootstrap
- * @subpackage Tab
- * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2018 netzmacht David Molineus. All rights reserved.
- * @license    LGPL-3.0 https://github.com/contao-bootstrap/tab
- * @filesource
- */
-
-/*
- * Config
- */
-
-$GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = [
-    'contao_bootstrap.tab.listener.dca.content',
-    'initializeDca',
-];
-
-$GLOBALS['TL_DCA']['tl_content']['config']['onsubmit_callback'][] = [
-    'contao_bootstrap.tab.listener.dca.content',
-    'generateColumns',
-];
+declare(strict_types=1);
 
 /*
  * Palettes
@@ -59,10 +36,8 @@ $GLOBALS['TL_DCA']['tl_content']['metapalettes']['bs_tab_end'] = [
  */
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_parent'] = [
-    'label'            => &$GLOBALS['TL_LANG']['tl_content']['bs_tab_parent'],
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => ['contao_bootstrap.tab.listener.dca.content', 'getTabParentOptions'],
     'reference'        => &$GLOBALS['TL_LANG']['tl_content'],
     'eval'             => [
         'mandatory'          => true,
@@ -75,7 +50,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_parent'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_name'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tab_name'],
     'exclude'   => true,
     'inputType' => 'text',
     'eval'      => ['tl_class' => 'clr w50', 'mandatory' => true, 'maxlength' => 64],
@@ -83,7 +57,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_name'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tabs'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs'],
     'exclude'   => true,
     'inputType' => 'multiColumnWizard',
     'eval'      => [
@@ -122,7 +95,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tabs'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_nav_position'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tab_nav_position'],
     'exclude'   => true,
     'inputType' => 'select',
     'eval'      => ['tl_class' => 'w50'],
@@ -131,7 +103,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_nav_position'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_fade'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tab_fade'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'eval'      => ['tl_class' => 'w50 m12'],
@@ -139,7 +110,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_fade'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_content_class'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tab_content_class'],
     'exclude'   => true,
     'inputType' => 'text',
     'eval'      => ['tl_class' => 'clr w50', 'maxlength' => 64],
@@ -147,7 +117,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_content_class'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_nav_class'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tab_nav_class'],
     'exclude'   => true,
     'inputType' => 'text',
     'eval'      => ['tl_class' => 'w50', 'maxlength' => 64],

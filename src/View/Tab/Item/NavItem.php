@@ -1,64 +1,40 @@
 <?php
 
-/**
- * Contao Bootstrap
- *
- * @package    contao-bootstrap
- * @subpackage Tab
- * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2018 netzmacht David Molineus. All rights reserved.
- * @license    LGPL-3.0 https://github.com/contao-bootstrap/tab
- * @filesource
- */
-
 declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\View\Tab\Item;
 
 use Contao\StringUtil;
 
-/**
- * Class Item
- */
 class NavItem
 {
     /**
      * Navigation item title.
-     *
-     * @var string
      */
-    private $title;
+    private string $title;
 
     /**
      * Css id.
-     *
-     * @var string
      */
-    private $cssId;
+    private string $cssId;
 
     /**
      * Nav css id.
-     *
-     * @var string
      */
-    private $navCssId;
+    private string $navCssId;
 
     /**
      * Active item.
-     *
-     * @var bool
      */
-    private $active;
+    private bool $active;
 
     /**
-     * Item constructor.
-     *
      * @param string      $title    Title of the nav item.
      * @param bool        $active   Active state.
      * @param string|null $cssId    Css id.
      * @param string|null $navCssId Nav css id.
      */
-    public function __construct(string $title, bool $active = false, string $cssId = null, string $navCssId = null)
+    public function __construct(string $title, bool $active = false, ?string $cssId = null, ?string $navCssId = null)
     {
         $this->title    = $title;
         $this->cssId    = $cssId ?: StringUtil::standardize($title);
@@ -69,12 +45,12 @@ class NavItem
     /**
      * Create nav item from an array definition.
      *
-     * @param array $definition The array definition.
-     *
-     * @return NavItem
+     * @param array<string,mixed> $definition The array definition.
      */
     public static function fromArray(array $definition): NavItem
     {
+        /** @psalm-suppress UnsafeInstantiation */
+
         return new static(
             $definition['title'],
             (bool) $definition['active'],
@@ -85,8 +61,6 @@ class NavItem
 
     /**
      * Get the title.
-     *
-     * @return string
      */
     public function title(): string
     {
@@ -95,8 +69,6 @@ class NavItem
 
     /**
      * Get the navigation item css id.
-     *
-     * @return string
      */
     public function navCssId(): string
     {
@@ -105,8 +77,6 @@ class NavItem
 
     /**
      * Get the css id.
-     *
-     * @return string
      */
     public function cssId(): string
     {
@@ -115,8 +85,6 @@ class NavItem
 
     /**
      * Active state.
-     *
-     * @return bool
      */
     public function active(): bool
     {

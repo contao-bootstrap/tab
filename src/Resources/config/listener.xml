@@ -4,9 +4,27 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <defaults public="true" />
-        <service id="contao_bootstrap.tab.listener.dca.content" class="ContaoBootstrap\Tab\EventListener\Dca\ContentListener" >
-            <argument type="service" id="contao.framework" />
+        <service id="contao_bootstrap.tab.listener.dca.content" class="ContaoBootstrap\Tab\EventListener\Dca\ContentListener" public="true">
+            <argument type="service" id="netzmacht.contao_toolkit.dca.manager"/>
+            <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
+            <argument type="service" id="netzmacht.contao_toolkit.assets_manager"/>
+        </service>
+
+        <service id="ContaoBootstrap\Tab\EventListener\Hook\RegisterFixContentParentRelationsFixerListener">
+            <argument type="service" id="netzmacht.contao_toolkit.dca.manager"/>
+            <argument>%contao_bootstrap.tab.content_parent_drivers%</argument>
+            <tag name="contao.hook" hook="loadDataContainer"/>
+        </service>
+
+        <service id="ContaoBootstrap\Tab\EventListener\Dca\ContentFixParentRelationListener" public="true">
+            <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
+        </service>
+
+        <service id="ContaoBootstrap\Tab\EventListener\Dca\ParentFixContentParentRelationsListener" public="true">
+            <argument type="service" id="database_connection"/>
+            <argument type="service" id="netzmacht.contao_toolkit.dca.manager"/>
+            <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
+            <argument type="service" id="netzmacht.contao_toolkit.contao.input_adapter"/>
         </service>
     </services>
 </container>

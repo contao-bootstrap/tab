@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Contao Bootstrap
- *
- * @package    contao-bootstrap
- * @subpackage Tab
- * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2018 netzmacht David Molineus. All rights reserved.
- * @license    LGPL-3.0 https://github.com/contao-bootstrap/tab
- * @filesource
- */
-
 declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\ContaoManager;
@@ -23,15 +12,14 @@ use ContaoBootstrap\Core\ContaoBootstrapCoreBundle;
 use ContaoBootstrap\Grid\ContaoBootstrapGridBundle;
 use ContaoBootstrap\Tab\ContaoBootstrapTabBundle;
 
-/**
- * Class Plugin
- */
+use function class_exists;
+
 final class Plugin implements BundlePluginInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser): array
     {
         $loadAfter = [ContaoCoreBundle::class, ContaoBootstrapCoreBundle::class];
 
@@ -39,9 +27,6 @@ final class Plugin implements BundlePluginInterface
             $loadAfter[] = ContaoBootstrapGridBundle::class;
         }
 
-        return [
-            BundleConfig::create(ContaoBootstrapTabBundle::class)
-                ->setLoadAfter($loadAfter)
-        ];
+        return [BundleConfig::create(ContaoBootstrapTabBundle::class)->setLoadAfter($loadAfter)];
     }
 }

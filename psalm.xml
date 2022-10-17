@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<psalm
+        errorLevel="8"
+        hideExternalErrors="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
+>
+    <projectFiles>
+        <directory name="src"/>
+    </projectFiles>
+
+    <issueHandlers>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Contao\CoreBundle\Framework\ContaoFramework::getAdapter"/>
+                <referencedMethod name="Contao\CoreBundle\Framework\Adapter::__call"/>
+            </errorLevel>
+        </InternalMethod>
+
+        <DeprecatedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Doctrine\DBAL\Connection::getSchemaManager"/>
+                <referencedMethod name="Doctrine\DBAL\Query\QueryBuilder::execute"/>
+            </errorLevel>
+        </DeprecatedMethod>
+    </issueHandlers>
+
+    <universalObjectCrates>
+        <class name="Contao\ContentModel"/>
+        <class name="Contao\Database\Result"/>
+    </universalObjectCrates>
+</psalm>

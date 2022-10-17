@@ -1,100 +1,97 @@
 <?php
 
-/**
- * Contao Bootstrap
- *
- * @package    contao-bootstrap
- * @subpackage Tab
- * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2013-2018 netzmacht David Molineus. All rights reserved.
- * @license    LGPL-3.0 https://github.com/contao-bootstrap/tab
- * @filesource
- */
-
 declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\EventListener\Dca;
 
 use Contao\ContentModel;
-use Contao\CoreBundle\Framework\Adapter;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface as ContaoFramework;
+use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Database\Result;
 use Contao\DataContainer;
-use Contao\Model;
+use Contao\Model\Collection;
 use Contao\StringUtil;
+use Netzmacht\Contao\Toolkit\Data\Model\RepositoryManager;
+use Netzmacht\Contao\Toolkit\Dca\DcaManager;
+use Netzmacht\Contao\Toolkit\Dca\Listener\AbstractListener;
+use Netzmacht\Contao\Toolkit\View\Assets\AssetsManager;
 
-/**
- * Class ContentListener
- *
- * @package ContaoBootstrap\Tab\EventListener\Dca
- */
-final class ContentListener
+use function array_unshift;
+use function assert;
+use function sprintf;
+use function time;
+
+final class ContentListener extends AbstractListener
 {
-    /**
-     * Contao framework.
-     *
-     * @var ContaoFramework
-     */
-    private $framework;
+    /**@var string */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+    protected static $name = 'tl_content';
 
-    /**
-     * Content Model repository.
-     *
-     * @var Adapter|ContentModel
-     */
-    private $repository;
+    private RepositoryManager $repositories;
 
-    /**
-     * ContentDataContainer constructor.
-     *
-     * @param ContaoFramework $framework Contao framework.
-     */
-    public function __construct(ContaoFramework $framework)
+    private AssetsManager $assetsManager;
+
+    public function __construct(DcaManager $dcaManager, RepositoryManager $repositories, AssetsManager $assetsManager)
     {
-        $this->framework  = $framework;
-        $this->repository = $this->framework->getAdapter(ContentModel::class);
+        parent::__construct($dcaManager);
+
+        $this->repositories  = $repositories;
+        $this->assetsManager = $assetsManager;
     }
 
     /**
      * Initialize the dca.
      *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @Callback(table="tl_content", target="config.onload")
      */
     public function initializeDca(): void
     {
-        $GLOBALS['TL_CSS'][] = 'bundles/contaobootstraptab/css/backend.css';
+        $this->assetsManager->addStylesheet('contao_bootstrap_tab::css/backend.css');
 
-        if (isset($GLOBALS['TL_DCA']['tl_content']['fields']['bs_grid'])) {
-            $GLOBALS['TL_DCA']['tl_content']['fields']['bs_grid']['load_callback'][] = [
-                'contao_bootstrap.tab.listener.dca.content',
-                'configureGridField',
-            ];
+        if (! $this->getDefinition()->has(['fields', 'bs_grid'])) {
+            return;
         }
+
+        $this->getDefinition()->modify(
+            ['fields', 'bs_grid', 'load_callback'],
+            static function (?array $value): array {
+                $value   = (array) $value;
+                $value[] = [
+                    'contao_bootstrap.tab.listener.dca.content',
+                    'configureGridField',
+                ];
+
+                return $value;
+            }
+        );
     }
 
     /**
      * Get all tab parent options.
      *
-     * @return array
+     * @return array<int|string,string>
      *
      * @SuppressWarnings(PHPMD.Superglobals)
+     * @Callback(table="tl_content", target="fields.bs_tab_parent.options")
      */
     public function getTabParentOptions(): array
     {
-        $columns[] = 'tl_content.type = ?';
-        $columns[] = 'tl_content.pid = ?';
-        $columns[] = 'tl_content.ptable = ?';
+        $columns = [
+            'tl_content.type = ?',
+            'tl_content.pid = ?',
+            'tl_content.ptable = ?',
+        ];
 
-        $values[] = 'bs_tab_start';
-        $values[] = CURRENT_ID;
-        $values[] = $GLOBALS['TL_DCA']['tl_content']['config']['ptable'];
+        /** @psalm-suppress UndefinedConstant */
+        $values = [
+            'bs_tab_start',
+            CURRENT_ID,
+            $this->getDefinition()->get(['config', 'ptable']),
+        ];
 
-        $collection = $this->repository->findBy($columns, $values);
+        $collection = $this->repositories->getRepository(ContentModel::class)->findBy($columns, $values);
         $options    = [];
 
-        if ($collection) {
+        if ($collection instanceof Collection) {
             foreach ($collection as $model) {
                 $options[$model->id] = sprintf(
                     '%s [%s]',
@@ -114,13 +111,11 @@ final class ContentListener
      * @param DataContainer|null $dataContainer The data container driver.
      *
      * @return mixed
-     *
-     * @SuppressWarnings(PHPMD.Superglobals)
      */
-    public function configureGridField($value, $dataContainer)
+    public function configureGridField($value, ?DataContainer $dataContainer)
     {
-        if ($dataContainer->activeRecord->type === 'bs_tab_start') {
-            $GLOBALS['TL_DCA']['tl_content']['fields']['bs_grid']['eval']['mandatory'] = false;
+        if ($dataContainer && $dataContainer->activeRecord && $dataContainer->activeRecord->type === 'bs_tab_start') {
+            $this->getDefinition()->set(['fields', 'bs_grid', 'eval', 'mandatory'], false);
         }
 
         return $value;
@@ -131,36 +126,37 @@ final class ContentListener
      *
      * @param DataContainer $dataContainer Data container driver.
      *
-     * @return void
+     * @Callback(table="tl_content", target="config.onsubmit")
      */
-    public function generateColumns($dataContainer)
+    public function generateColumns(DataContainer $dataContainer): void
     {
-        if (!$dataContainer->activeRecord || $dataContainer->activeRecord->type !== 'bs_tab_start') {
+        if (! $dataContainer->activeRecord || $dataContainer->activeRecord->type !== 'bs_tab_start') {
             return;
         }
 
-        /** @var ContentModel|Result $current */
-        $current      = $dataContainer->activeRecord;
+        $current = $dataContainer->activeRecord;
+        assert($current instanceof Result || $current instanceof ContentModel);
+
         $stopElement  = $this->getStopElement($current);
         $count        = $this->countRequiredSeparators($dataContainer->activeRecord->bs_tabs, $current);
         $nextElements = $this->getNextElements($stopElement);
 
-        if ($count > 0) {
-            $sorting = (int) $stopElement->sorting;
-            $sorting = $this->createSeparators((int) $count, $current, $sorting);
-
-            array_unshift($nextElements, $stopElement);
-            $this->updateSortings($nextElements, $sorting);
+        if ($count <= 0) {
+            return;
         }
+
+        $sorting = (int) $stopElement->sorting;
+        $sorting = $this->createSeparators($count, $current, $sorting);
+
+        array_unshift($nextElements, $stopElement);
+        $this->updateSortings($nextElements, $sorting);
     }
 
     /**
      * Count the required separator fields which should be created.
      *
-     * @param mixed        $definition The tab definitions.
-     * @param ContentModel $current    The current content model.
-     *
-     * @return int
+     * @param mixed               $definition The tab definitions.
+     * @param ContentModel|Result $current    The current content model.
      */
     private function countRequiredSeparators($definition, $current): int
     {
@@ -168,37 +164,34 @@ final class ContentListener
         $count      = -1;
 
         foreach ($definition as $item) {
-            if ($item['type'] !== 'dropdown') {
-                $count++;
+            if ($item['type'] === 'dropdown') {
+                continue;
             }
+
+            $count++;
         }
 
-        $count -= $this->repository->countBy(
+        return $count - $this->repositories->getRepository(ContentModel::class)->countBy(
             [
                 'tl_content.ptable=?',
                 'tl_content.pid=?',
                 '(tl_content.type = ? AND tl_content.bs_tab_parent = ?)',
             ],
             [$current->ptable, $current->pid, 'bs_tab_separator', $current->id],
-            ['order' => 'tl_content.sorting ASC']
         );
-
-        return $count;
     }
 
     /**
      * Create separators.
      *
-     * @param int          $value   Number of separators being created.
-     * @param ContentModel $current Current model.
-     * @param int          $sorting Current sorting value.
-     *
-     * @return int
+     * @param int                 $value   Number of separators being created.
+     * @param ContentModel|Result $current Current model.
+     * @param int                 $sorting Current sorting value.
      */
     protected function createSeparators(int $value, $current, int $sorting): int
     {
         for ($count = 1; $count <= $value; $count++) {
-            $sorting = ($sorting + 8);
+            $sorting += 8;
             $this->createTabElement($current, 'bs_tab_separator', $sorting);
         }
 
@@ -208,16 +201,14 @@ final class ContentListener
     /**
      * Update the sorting of given elements.
      *
-     * @param Model[] $elements    Model collection.
-     * @param int     $lastSorting Last sorting value.
-     *
-     * @return int
+     * @param ContentModel[] $elements    Model collection.
+     * @param int            $lastSorting Last sorting value.
      */
     protected function updateSortings(array $elements, int $lastSorting): int
     {
         foreach ($elements as $element) {
             if ($lastSorting > $element->sorting) {
-                $element->sorting = ($lastSorting + 8);
+                $element->sorting = $lastSorting + 8;
                 $element->save();
             }
 
@@ -230,14 +221,12 @@ final class ContentListener
     /**
      * Create the stop element.
      *
-     * @param ContentModel $current Model.
-     * @param int          $sorting Last sorting value.
-     *
-     * @return Model
+     * @param ContentModel|Result $current Model.
+     * @param int                 $sorting Last sorting value.
      */
-    protected function createStopElement($current, int $sorting): Model
+    protected function createStopElement($current, int $sorting): ContentModel
     {
-        $sorting = ($sorting + 8);
+        $sorting += 8;
 
         return $this->createTabElement($current, 'bs_tab_end', $sorting);
     }
@@ -245,13 +234,11 @@ final class ContentListener
     /**
      * Create a tab element.
      *
-     * @param ContentModel $current Current content model.
-     * @param string       $type    Type of the content model.
-     * @param int          $sorting The sorting value.
-     *
-     * @return Model
+     * @param ContentModel|Result $current Current content model.
+     * @param string              $type    Type of the content model.
+     * @param int                 $sorting The sorting value.
      */
-    protected function createTabElement($current, string $type, int &$sorting): Model
+    protected function createTabElement($current, string $type, int &$sorting): ContentModel
     {
         $model                = new ContentModel();
         $model->tstamp        = time();
@@ -268,13 +255,13 @@ final class ContentListener
     /**
      * Get the next content elements.
      *
-     * @param ContentModel $current Current content model.
+     * @param ContentModel|Result $current Current content model.
      *
      * @return ContentModel[]
      */
     protected function getNextElements($current): array
     {
-        $collection = $this->repository->findBy(
+        $collection = $this->repositories->getRepository(ContentModel::class)->findBy(
             [
                 'tl_content.ptable=?',
                 'tl_content.pid=?',
@@ -294,18 +281,16 @@ final class ContentListener
     /**
      * Get related stop element.
      *
-     * @param ContentModel $current Current element.
-     *
-     * @return ContentModel|Model
+     * @param ContentModel|Result $current Current element.
      */
-    protected function getStopElement($current): Model
+    protected function getStopElement($current): ContentModel
     {
-        $stopElement = $this->repository->findOneBy(
+        $stopElement = $this->repositories->getRepository(ContentModel::class)->findOneBy(
             ['tl_content.type=?', 'tl_content.bs_tab_parent=?'],
             ['bs_tab_end', $current->id]
         );
 
-        if ($stopElement) {
+        if ($stopElement instanceof ContentModel) {
             return $stopElement;
         }
 
