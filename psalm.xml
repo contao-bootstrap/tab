@@ -10,7 +10,17 @@
         <directory name="src"/>
     </projectFiles>
 
+    <issueHandlers>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Contao\CoreBundle\Framework\ContaoFramework::getAdapter"/>
+                <referencedMethod name="Contao\CoreBundle\Framework\Adapter::__call"/>
+            </errorLevel>
+        </InternalMethod>
+    </issueHandlers>
+
     <universalObjectCrates>
-        <class name="Contao\Widget"/>
+        <class name="Contao\ContentModel"/>
+        <class name="Contao\Database\Result"/>
     </universalObjectCrates>
 </psalm>

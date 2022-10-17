@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\Component\ContentElement;
 
-use Contao\ContentModel;
 use Contao\CoreBundle\ServiceAnnotation\ContentElement;
 use Contao\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use function assert;
 use function rtrim;
 
 /** @ContentElement("bs_tab_separator", category="bootstrap_tabs") */
@@ -23,8 +21,6 @@ final class TabSeparatorElementController extends AbstractTabElementController
             return null;
         }
 
-        assert($model instanceof ContentModel);
-
         $iterator = $this->getIterator($model);
         if ($iterator) {
             $iterator->next();
@@ -36,8 +32,6 @@ final class TabSeparatorElementController extends AbstractTabElementController
     /** {@inheritDoc} */
     protected function prepareTemplateData(array $data, Request $request, Model $model): array
     {
-        assert($model instanceof ContentModel);
-
         $data     = parent::prepareTemplateData($data, $request, $model);
         $iterator = $this->getIterator($model);
         $parent   = $this->getParent($model);
@@ -52,7 +46,7 @@ final class TabSeparatorElementController extends AbstractTabElementController
 
                 $data['currentItem'] = $currentItem;
 
-                if ($parent->bs_tab_fade && $currentItem && $currentItem->active()) {
+                if ($parent && $parent->bs_tab_fade && $currentItem && $currentItem->active()) {
                     $data['fade'] = rtrim($data['fade'] . ' show');
                 }
             }

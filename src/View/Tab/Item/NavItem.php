@@ -49,6 +49,8 @@ class NavItem
      */
     public static function fromArray(array $definition): NavItem
     {
+        /** @psalm-suppress UnsafeInstantiation */
+
         return new static(
             $definition['title'],
             (bool) $definition['active'],

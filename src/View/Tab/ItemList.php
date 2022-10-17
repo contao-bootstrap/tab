@@ -11,9 +11,9 @@ interface ItemList
     /**
      * Add item.
      *
-     * @param NavItem $navItem Nav item.
+     * @param NavItem $item Nav item.
      */
-    public function addItem(NavItem $navItem): ItemList;
+    public function addItem(NavItem $item): ItemList;
 
     /**
      * Get all items.

@@ -23,9 +23,9 @@ final class Dropdown extends NavItem implements ItemList
         return $this->items;
     }
 
-    public function addItem(NavItem $navItem): ItemList
+    public function addItem(NavItem $item): ItemList
     {
-        $this->items[] = $navItem;
+        $this->items[] = $item;
 
         return $this;
     }

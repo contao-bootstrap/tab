@@ -29,7 +29,7 @@ final class Navigation implements ItemList
      */
     public static function fromSerialized(string $definition, string $tabId): self
     {
-        $navigation = new Navigation();
+        $navigation = new self();
         $current    = $navigation;
         $definition = StringUtil::deserialize($definition, true);
         $cssIds     = [];
@@ -54,8 +54,10 @@ final class Navigation implements ItemList
                     $current = $navigation;
                 }
 
-                $item = NavItem::fromArray($tab);
-                $current->addItem($item);
+                if ($current instanceof ItemList) {
+                    $item = NavItem::fromArray($tab);
+                    $current->addItem($item);
+                }
             }
         }
 

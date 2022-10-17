@@ -6,7 +6,9 @@
     <services>
         <defaults public="true" />
         <service id="contao_bootstrap.tab.listener.dca.content" class="ContaoBootstrap\Tab\EventListener\Dca\ContentListener">
-            <argument type="service" id="contao.framework" />
+            <argument type="service" id="netzmacht.contao_toolkit.dca.manager"/>
+            <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
+            <argument type="service" id="netzmacht.contao_toolkit.assets_manager"/>
         </service>
     </services>
 </container>

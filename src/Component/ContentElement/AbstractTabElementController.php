@@ -87,7 +87,10 @@ abstract class AbstractTabElementController extends AbstractContentElementContro
     }
 
     /**
-     * Get the parent model.
+     * Get the parent model
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     protected function getParent(ContentModel $model): ?ContentModel
     {

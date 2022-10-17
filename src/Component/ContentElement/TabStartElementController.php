@@ -10,7 +10,6 @@ use Contao\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use function assert;
 use function rtrim;
 
 /** @ContentElement("bs_tab_start", category="bootstrap_tabs") */
@@ -23,16 +22,12 @@ final class TabStartElementController extends AbstractTabElementController
             return null;
         }
 
-        assert($model instanceof ContentModel);
-
         return $this->renderContentBackendView($model, $this->getIterator($model));
     }
 
     /** {@inheritDoc} */
     protected function prepareTemplateData(array $data, Request $request, Model $model): array
     {
-        assert($model instanceof ContentModel);
-
         $data = parent::prepareTemplateData($data, $request, $model);
 
         $data['fade']     = $model->bs_tab_fade ? ' fade' : '';
