@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ContaoBootstrap\Tab\EventListener\Dca;
 
 use Contao\ContentModel;
+use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\Model\Collection;
@@ -39,6 +40,8 @@ final class ContentListener extends AbstractListener
 
     /**
      * Initialize the dca.
+     *
+     * @Callback(table="tl_content", target="config.onload")
      */
     public function initializeDca(): void
     {
@@ -68,6 +71,7 @@ final class ContentListener extends AbstractListener
      * @return array<int|string,string>
      *
      * @SuppressWarnings(PHPMD.Superglobals)
+     * @Callback(table="tl_content", target="fields.bs_tab_parent.options")
      */
     public function getTabParentOptions(): array
     {
@@ -121,6 +125,8 @@ final class ContentListener extends AbstractListener
      * Generate the columns.
      *
      * @param DataContainer $dataContainer Data container driver.
+     *
+     * @Callback(table="tl_content", target="config.onsubmit")
      */
     public function generateColumns(DataContainer $dataContainer): void
     {

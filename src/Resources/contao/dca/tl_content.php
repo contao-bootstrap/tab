@@ -3,20 +3,6 @@
 declare(strict_types=1);
 
 /*
- * Config
- */
-
-$GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = [
-    'contao_bootstrap.tab.listener.dca.content',
-    'initializeDca',
-];
-
-$GLOBALS['TL_DCA']['tl_content']['config']['onsubmit_callback'][] = [
-    'contao_bootstrap.tab.listener.dca.content',
-    'generateColumns',
-];
-
-/*
  * Palettes
  */
 
@@ -52,7 +38,6 @@ $GLOBALS['TL_DCA']['tl_content']['metapalettes']['bs_tab_end'] = [
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_parent'] = [
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => ['contao_bootstrap.tab.listener.dca.content', 'getTabParentOptions'],
     'reference'        => &$GLOBALS['TL_LANG']['tl_content'],
     'eval'             => [
         'mandatory'          => true,
