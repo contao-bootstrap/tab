@@ -35,6 +35,7 @@
     "contao-bootstrap/core": "~2.0",
     "contao-community-alliance/meta-palettes": "~2.0 || ~1.11",
     "contao/core-bundle": "^4.9",
+    "doctrine/dbal": "^2.11 || ^3.0",
     "menatwork/contao-multicolumnwizard-bundle": "~3.2",
     "netzmacht/contao-toolkit": "^3.8",
     "netzmacht/html": "~2.0",

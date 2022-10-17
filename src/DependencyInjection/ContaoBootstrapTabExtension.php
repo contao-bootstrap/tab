@@ -23,6 +23,7 @@ final class ContaoBootstrapTabExtension extends Extension
             new FileLocator(dirname(__DIR__) . '/Resources/config')
         );
 
+        $loader->load('config.xml');
         $loader->load('services.xml');
         $loader->load('listener.xml');
     }

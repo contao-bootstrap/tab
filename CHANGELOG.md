@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+### Changed
+
+- Bump minimum PHP version to 7.4
+- Bump Symfony requirements to ^4.4 or ^5.4
+- Bump Contao requirements to ^4.9 or ^4.13
+- Changed coding standard
+- Rewrite content elements to fragment controller
+
+### Added
+
+ - Fix relations when duplicating content elements ([#9](https://github.com/contao-bootstrap/tab/issues/9))
+
 2.0.5 (2020-01-20)
 ------------------
 
@@ -9,7 +24,7 @@ Changelog
 ### Changed
 
  - Allow symfony/templating ^5.0
- 
+
 ### Fixed
 
  - Fix indents in backend view ([#7](https://github.com/contao-bootstrap/tab/issues/7))
@@ -33,9 +48,9 @@ Changelog
 
  - Fix missing composer requirements
  - Rework content element to be compatible with Symfony 4
- 
+
 ### Changed
- 
+
  - Updated readme
 
 

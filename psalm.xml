@@ -17,6 +17,13 @@
                 <referencedMethod name="Contao\CoreBundle\Framework\Adapter::__call"/>
             </errorLevel>
         </InternalMethod>
+
+        <DeprecatedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Doctrine\DBAL\Connection::getSchemaManager"/>
+                <referencedMethod name="Doctrine\DBAL\Query\QueryBuilder::execute"/>
+            </errorLevel>
+        </DeprecatedMethod>
     </issueHandlers>
 
     <universalObjectCrates>
