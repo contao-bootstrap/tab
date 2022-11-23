@@ -41,5 +41,10 @@
             <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
             <argument type="service" id="contao_bootstrap.grid.grid_provider" on-invalid="ignore"/>
         </service>
+
+        <service id="ContaoBootstrap\Tab\Migration\TabsGroupIndexMigration">
+            <argument type="service" id="database_connection"/>
+            <tag name="contao.migration"/>
+        </service>
     </services>
 </container>

@@ -7,7 +7,6 @@
         <service id="contao_bootstrap.tab.listener.dca.content" class="ContaoBootstrap\Tab\EventListener\Dca\ContentListener" public="true">
             <argument type="service" id="netzmacht.contao_toolkit.dca.manager"/>
             <argument type="service" id="netzmacht.contao_toolkit.repository_manager"/>
-            <argument type="service" id="netzmacht.contao_toolkit.assets_manager"/>
         </service>
 
         <service id="ContaoBootstrap\Tab\EventListener\Hook\RegisterFixContentParentRelationsFixerListener">

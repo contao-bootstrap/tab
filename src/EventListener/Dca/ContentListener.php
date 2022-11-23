@@ -13,7 +13,6 @@ use Contao\StringUtil;
 use Netzmacht\Contao\Toolkit\Data\Model\RepositoryManager;
 use Netzmacht\Contao\Toolkit\Dca\DcaManager;
 use Netzmacht\Contao\Toolkit\Dca\Listener\AbstractListener;
-use Netzmacht\Contao\Toolkit\View\Assets\AssetsManager;
 
 use function array_unshift;
 use function assert;
@@ -29,7 +28,6 @@ final class ContentListener extends AbstractListener
     public function __construct(
         DcaManager $dcaManager,
         private readonly RepositoryManager $repositories,
-        private readonly AssetsManager $assetsManager,
     ) {
         parent::__construct($dcaManager);
     }
@@ -41,8 +39,6 @@ final class ContentListener extends AbstractListener
      */
     public function initializeDca(): void
     {
-        $this->assetsManager->addStylesheet('contao_bootstrap_tab::css/backend.css');
-
         if (! $this->getDefinition()->has(['fields', 'bs_grid'])) {
             return;
         }

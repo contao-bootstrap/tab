@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function rtrim;
 
-/** @ContentElement("bs_tab_separator", category="bootstrap_tabs") */
+/** @ContentElement("bs_tab_separator", category="bootstrap_tabs", template="ce_bs_tab_separator") */
 final class TabSeparatorElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */

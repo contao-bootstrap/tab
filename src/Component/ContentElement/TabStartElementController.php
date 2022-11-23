@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function rtrim;
 
-/** @ContentElement("bs_tab_start", category="bootstrap_tabs") */
+/** @ContentElement("bs_tab_start", category="bootstrap_tabs", template="ce_bs_tab_start") */
 final class TabStartElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */

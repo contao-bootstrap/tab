@@ -9,7 +9,7 @@ use Contao\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/** @ContentElement("bs_tab_end", category="bootstrap_tabs") */
+/** @ContentElement("bs_tab_end", category="bootstrap_tabs", template="ce_bs_tab_end") */
 final class TabEndElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */
