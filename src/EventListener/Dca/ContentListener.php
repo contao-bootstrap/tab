@@ -14,6 +14,8 @@ use Netzmacht\Contao\Toolkit\Data\Model\RepositoryManager;
 use Netzmacht\Contao\Toolkit\Dca\DcaManager;
 use Netzmacht\Contao\Toolkit\Dca\Listener\AbstractListener;
 
+use stdClass;
+
 use function array_unshift;
 use function assert;
 use function sprintf;
@@ -124,7 +126,7 @@ final class ContentListener extends AbstractListener
         }
 
         $current = $dataContainer->activeRecord;
-        assert($current instanceof Result || $current instanceof ContentModel);
+        assert($current instanceof Result || $current instanceof ContentModel || $current instanceof stdClass);
 
         $stopElement  = $this->getStopElement($current);
         $count        = $this->countRequiredSeparators($dataContainer->activeRecord->bs_tabs, $current);
@@ -144,10 +146,10 @@ final class ContentListener extends AbstractListener
     /**
      * Count the required separator fields which should be created.
      *
-     * @param mixed               $definition The tab definitions.
-     * @param ContentModel|Result $current    The current content model.
+     * @param mixed                        $definition The tab definitions.
+     * @param ContentModel|Result|stdClass $current    The current content model.
      */
-    private function countRequiredSeparators(mixed $definition, ContentModel|Result $current): int
+    private function countRequiredSeparators(mixed $definition, ContentModel|Result|stdClass $current): int
     {
         $definition = StringUtil::deserialize($definition, true);
         $count      = -1;
@@ -173,11 +175,11 @@ final class ContentListener extends AbstractListener
     /**
      * Create separators.
      *
-     * @param int                 $value   Number of separators being created.
-     * @param ContentModel|Result $current Current model.
-     * @param int                 $sorting Current sorting value.
+     * @param int                          $value   Number of separators being created.
+     * @param ContentModel|Result|stdClass $current Current model.
+     * @param int                          $sorting Current sorting value.
      */
-    protected function createSeparators(int $value, ContentModel|Result $current, int $sorting): int
+    protected function createSeparators(int $value, ContentModel|Result|stdClass $current, int $sorting): int
     {
         for ($count = 1; $count <= $value; $count++) {
             $sorting += 8;
@@ -210,10 +212,10 @@ final class ContentListener extends AbstractListener
     /**
      * Create the stop element.
      *
-     * @param ContentModel|Result $current Model.
-     * @param int                 $sorting Last sorting value.
+     * @param ContentModel|Result|stdClass $current Model.
+     * @param int                          $sorting Last sorting value.
      */
-    protected function createStopElement(ContentModel|Result $current, int $sorting): ContentModel
+    protected function createStopElement(ContentModel|Result|stdClass $current, int $sorting): ContentModel
     {
         $sorting += 8;
 
@@ -223,12 +225,15 @@ final class ContentListener extends AbstractListener
     /**
      * Create a tab element.
      *
-     * @param ContentModel|Result $current Current content model.
-     * @param string              $type    Type of the content model.
-     * @param int                 $sorting The sorting value.
+     * @param ContentModel|Result|stdClass $current Current content model.
+     * @param string                       $type    Type of the content model.
+     * @param int                          $sorting The sorting value.
      */
-    protected function createTabElement(ContentModel|Result $current, string $type, int &$sorting): ContentModel
-    {
+    protected function createTabElement(
+        ContentModel|Result|stdClass $current,
+        string $type,
+        int &$sorting,
+    ): ContentModel {
         $model                = new ContentModel();
         $model->tstamp        = time();
         $model->pid           = $current->pid;
@@ -244,11 +249,11 @@ final class ContentListener extends AbstractListener
     /**
      * Get the next content elements.
      *
-     * @param ContentModel|Result $current Current content model.
+     * @param ContentModel|Result|stdClass $current Current content model.
      *
      * @return ContentModel[]
      */
-    protected function getNextElements(ContentModel|Result $current): array
+    protected function getNextElements(ContentModel|Result|stdClass $current): array
     {
         $collection = $this->repositories->getRepository(ContentModel::class)->findBy(
             [
@@ -270,9 +275,9 @@ final class ContentListener extends AbstractListener
     /**
      * Get related stop element.
      *
-     * @param ContentModel|Result $current Current element.
+     * @param ContentModel|Result|stdClass $current Current element.
      */
-    protected function getStopElement(ContentModel|Result $current): ContentModel
+    protected function getStopElement(ContentModel|Result|stdClass $current): ContentModel
     {
         $stopElement = $this->repositories->getRepository(ContentModel::class)->findOneBy(
             ['tl_content.type=?', 'tl_content.bs_tab_parent=?'],
