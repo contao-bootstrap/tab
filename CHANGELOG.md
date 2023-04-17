@@ -1,8 +1,20 @@
 Changelog
 =========
 
-Unreleased
-----------
+2.1.1 (2023-04-17)
+------------------
+
+[Full Changelog](https://github.com/contao-bootstrap/tab/compare/2.1.0...2.1.1)
+
+### Fixed
+
+ - Fix type error ([#14](https://github.com/contao-bootstrap/tab/issues/14))
+
+
+2.1.0 (2022-10-17)
+------------------
+
+[Full Changelog](https://github.com/contao-bootstrap/tab/compare/2.0.4...2.1.0)
 
 ### Changed
 
