@@ -190,6 +190,9 @@ final class ParentFixContentParentRelationsListener
      * @param string     $childTable The child table.
      *
      * @return list<string|int>
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     private function fetchChildRecordIds(int $recordId, Definition $definition, string $childTable): array
     {
