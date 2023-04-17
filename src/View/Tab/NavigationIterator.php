@@ -88,7 +88,7 @@ final class NavigationIterator implements Iterator
 
         if ($this->currentItem instanceof Dropdown) {
             $this->dropdownItems       = $this->currentItem->items();
-            $this->currentDropdownItem = current($this->dropdownItems);
+            $this->currentDropdownItem = current($this->dropdownItems) ?: null;
         } else {
             $this->dropdownItems       = [];
             $this->currentDropdownItem = null;
@@ -119,7 +119,7 @@ final class NavigationIterator implements Iterator
     public function rewind(): void
     {
         $this->items               = $this->navigation->items();
-        $this->currentItem         = current($this->items);
+        $this->currentItem         = current($this->items) ?: null;
         $this->dropdownItems       = [];
         $this->currentDropdownItem = null;
 
@@ -128,7 +128,7 @@ final class NavigationIterator implements Iterator
         }
 
         $this->dropdownItems       = $this->currentItem->items();
-        $this->currentDropdownItem = current($this->dropdownItems);
+        $this->currentDropdownItem = current($this->dropdownItems) ?: null;
     }
 
     /**
