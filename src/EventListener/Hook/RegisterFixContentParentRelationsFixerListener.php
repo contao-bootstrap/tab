@@ -82,7 +82,7 @@ final class RegisterFixContentParentRelationsFixerListener
              * @psalm-suppress MoreSpecificReturnType
              * @psalm-suppress LessSpecificReturnStatement
              */
-            static function ($value): array {
+            static function (mixed $value): array {
                 if (! is_array($value)) {
                     $value = [];
                 }

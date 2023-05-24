@@ -12,7 +12,7 @@ use RuntimeException;
 use function current;
 use function next;
 
-/** @implements Iterator<mixed,NavItem> */
+/** @implements Iterator<mixed, NavItem|null> */
 final class NavigationIterator implements Iterator
 {
     /**
