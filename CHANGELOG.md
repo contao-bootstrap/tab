@@ -1,6 +1,16 @@
 Changelog
 =========
 
+3.0.0 (2023-06-12)
+------------------
+
+[Full Changelog](https://github.com/contao-bootstrap/tab/compare/2.1.1...3.0.0)
+
+### Changed
+
+ - Use mvo/contao-group-widget insteadof multi column wizard
+ - Support Contao 5 and Bootstrap 5
+
 2.1.1 (2023-04-17)
 ------------------
 
