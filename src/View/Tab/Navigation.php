@@ -72,7 +72,7 @@ final class Navigation implements ItemList
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function items(): array
     {

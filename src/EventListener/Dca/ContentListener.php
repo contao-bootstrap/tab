@@ -22,9 +22,7 @@ use function time;
 
 final class ContentListener extends AbstractListener
 {
-    /**@var string */
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
-    protected static $name = 'tl_content';
+    protected static string $name = 'tl_content';
 
     public function __construct(
         DcaManager $dcaManager,
