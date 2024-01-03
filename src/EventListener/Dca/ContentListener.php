@@ -22,13 +22,16 @@ use function time;
 
 final class ContentListener extends AbstractListener
 {
-    protected static string $name = 'tl_content';
-
     public function __construct(
         DcaManager $dcaManager,
         private readonly RepositoryManager $repositories,
     ) {
         parent::__construct($dcaManager);
+    }
+
+    public static function getName(): string
+    {
+        return 'tl_content';
     }
 
     /**
