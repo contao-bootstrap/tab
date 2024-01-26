@@ -30,8 +30,8 @@ class NavItem
         string|null $cssId = null,
         string|null $navCssId = null,
     ) {
-        $this->cssId    = $cssId ?: StringUtil::standardize($title);
-        $this->navCssId = $navCssId ?: $this->cssId . '-tab';
+        $this->cssId    = $cssId ?? StringUtil::standardize($title);
+        $this->navCssId = $navCssId ?? $this->cssId . '-tab';
     }
 
     /**
