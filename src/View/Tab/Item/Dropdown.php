@@ -11,12 +11,12 @@ final class Dropdown extends NavItem implements ItemList
     /**
      * Dropdown items.
      *
-     * @var array|NavItem[]
+     * @var list<NavItem>
      */
     private array $items = [];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function items(): array
     {

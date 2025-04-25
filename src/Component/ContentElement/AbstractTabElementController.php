@@ -23,38 +23,24 @@ use Symfony\Contracts\Translation\TranslatorInterface as Translator;
 
 abstract class AbstractTabElementController extends AbstractContentElementController
 {
-    private ColorRotate $colorRotate;
-
-    private TabRegistry $tabRegistry;
-
-    private ?GridProvider $gridProvider;
-
-    private Translator $translator;
-
-    private RepositoryManager $repositoryManager;
-
     public function __construct(
         TemplateRenderer $templateRenderer,
         RequestScopeMatcher $scopeMatcher,
         ResponseTagger $responseTagger,
         TokenChecker $tokenChecker,
-        Translator $translator,
-        ColorRotate $colorRotate,
-        TabRegistry $tabRegistry,
-        RepositoryManager $repositories,
-        ?GridProvider $gridProvider
+        private readonly Translator $translator,
+        private readonly ColorRotate $colorRotate,
+        private readonly TabRegistry $tabRegistry,
+        private readonly RepositoryManager $repositories,
+        private readonly GridProvider|null $gridProvider,
     ) {
         parent::__construct($templateRenderer, $scopeMatcher, $responseTagger, $tokenChecker);
-
-        $this->translator        = $translator;
-        $this->colorRotate       = $colorRotate;
-        $this->tabRegistry       = $tabRegistry;
-        $this->gridProvider      = $gridProvider;
-        $this->repositoryManager = $repositories;
     }
 
-    protected function renderContentBackendView(?ContentModel $start, ?NavigationIterator $iterator = null): Response
-    {
+    protected function renderContentBackendView(
+        ContentModel|null $start,
+        NavigationIterator|null $iterator = null,
+    ): Response {
         return $this->renderResponse(
             'fe:be_bs_tab',
             [
@@ -64,14 +50,14 @@ abstract class AbstractTabElementController extends AbstractContentElementContro
                     ? $this->translator->trans('ERR.bsTabParentMissing', [], 'contao_default')
                     : null,
                 'title' => $iterator ? $iterator->currentTitle() : [],
-            ]
+            ],
         );
     }
 
     /**
      * Get the tab navigation iterator.
      */
-    protected function getIterator(ContentModel $model): ?NavigationIterator
+    protected function getIterator(ContentModel $model): NavigationIterator|null
     {
         $parent = $this->getParent($model);
 
@@ -81,7 +67,7 @@ abstract class AbstractTabElementController extends AbstractContentElementContro
 
         try {
             return $this->tabRegistry->getIterator((string) $parent->id);
-        } catch (AssertionFailedException $e) {
+        } catch (AssertionFailedException) {
             return null;
         }
     }
@@ -92,15 +78,15 @@ abstract class AbstractTabElementController extends AbstractContentElementContro
      * @psalm-suppress MoreSpecificReturnType
      * @psalm-suppress LessSpecificReturnStatement
      */
-    protected function getParent(ContentModel $model): ?ContentModel
+    protected function getParent(ContentModel $model): ContentModel|null
     {
-        return $this->repositoryManager->getRepository(ContentModel::class)->find((int) $model->bs_tab_parent);
+        return $this->repositories->getRepository(ContentModel::class)->find((int) $model->bs_tab_parent);
     }
 
     /**
      * Get the grid iterator.
      */
-    protected function getGridIterator(ContentModel $model): ?GridIterator
+    protected function getGridIterator(ContentModel $model): GridIterator|null
     {
         if (! $this->gridProvider) {
             return null;
@@ -114,7 +100,7 @@ abstract class AbstractTabElementController extends AbstractContentElementContro
 
         try {
             return $this->gridProvider->getIterator('ce:' . $parent->id, (int) $parent->bs_grid);
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             return null;
         }
     }

@@ -50,7 +50,7 @@ final class RegisterFixContentParentRelationsFixerListener
     {
         try {
             $definition = $this->dcaManager->getDefinition($tableName);
-        } catch (AssertionFailed $exception) {
+        } catch (AssertionFailed) {
             return;
         }
 
@@ -82,7 +82,7 @@ final class RegisterFixContentParentRelationsFixerListener
              * @psalm-suppress MoreSpecificReturnType
              * @psalm-suppress LessSpecificReturnStatement
              */
-            static function ($value): array {
+            static function (mixed $value): array {
                 if (! is_array($value)) {
                     $value = [];
                 }
@@ -90,7 +90,7 @@ final class RegisterFixContentParentRelationsFixerListener
                 $value[] = [ParentFixContentParentRelationsListener::class, 'onCopy'];
 
                 return $value;
-            }
+            },
         );
     }
 }

@@ -11,20 +11,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function rtrim;
 
-/** @ContentElement("bs_tab_separator", category="bootstrap_tabs") */
+/** @ContentElement("bs_tab_separator", category="bootstrap_tabs", template="ce_bs_tab_separator") */
 final class TabSeparatorElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */
-    protected function preGenerate(Request $request, Model $model, string $section, ?array $classes = null): ?Response
-    {
+    protected function preGenerate(
+        Request $request,
+        Model $model,
+        string $section,
+        array|null $classes = null,
+    ): Response|null {
         if (! $this->isBackendRequest($request)) {
             return null;
         }
 
         $iterator = $this->getIterator($model);
-        if ($iterator) {
-            $iterator->next();
-        }
+        $iterator?->next();
 
         return $this->renderContentBackendView($this->getParent($model), $iterator);
     }

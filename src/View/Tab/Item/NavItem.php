@@ -9,24 +9,14 @@ use Contao\StringUtil;
 class NavItem
 {
     /**
-     * Navigation item title.
-     */
-    private string $title;
-
-    /**
      * Css id.
      */
-    private string $cssId;
+    private readonly string $cssId;
 
     /**
      * Nav css id.
      */
-    private string $navCssId;
-
-    /**
-     * Active item.
-     */
-    private bool $active;
+    private readonly string $navCssId;
 
     /**
      * @param string      $title    Title of the nav item.
@@ -34,12 +24,14 @@ class NavItem
      * @param string|null $cssId    Css id.
      * @param string|null $navCssId Nav css id.
      */
-    public function __construct(string $title, bool $active = false, ?string $cssId = null, ?string $navCssId = null)
-    {
-        $this->title    = $title;
-        $this->cssId    = $cssId ?: StringUtil::standardize($title);
-        $this->navCssId = $navCssId ?: $this->cssId . '-tab';
-        $this->active   = $active;
+    public function __construct(
+        private readonly string $title,
+        private readonly bool $active = false,
+        string|null $cssId = null,
+        string|null $navCssId = null,
+    ) {
+        $this->cssId    = $cssId ?? StringUtil::standardize($title);
+        $this->navCssId = $navCssId ?? $this->cssId . '-tab';
     }
 
     /**
@@ -55,7 +47,7 @@ class NavItem
             $definition['title'],
             (bool) $definition['active'],
             $definition['cssId'] ?? null,
-            $definition['navCssId'] ?? null
+            $definition['navCssId'] ?? null,
         );
     }
 

@@ -55,7 +55,7 @@ final class ParentFixContentParentRelationsListener
         Connection $connection,
         DcaManager $dcaManager,
         RepositoryManager $repositoryManager,
-        Adapter $inputAdapter
+        Adapter $inputAdapter,
     ) {
         $this->connection        = $connection;
         $this->dcaManager        = $dcaManager;
@@ -69,7 +69,7 @@ final class ParentFixContentParentRelationsListener
      * @param string|int    $insertId      Id of new created record.
      * @param DataContainer $dataContainer Data container.
      */
-    public function onCopy($insertId, DataContainer $dataContainer): void
+    public function onCopy(string|int $insertId, DataContainer $dataContainer): void
     {
         $this->fixChildRecords((int) $insertId, $dataContainer->table);
     }
@@ -151,7 +151,7 @@ final class ParentFixContentParentRelationsListener
                 ],
                 [
                     'id' => $model->id,
-                ]
+                ],
             );
         }
     }
@@ -165,7 +165,7 @@ final class ParentFixContentParentRelationsListener
      * @return Collection|ContentModel[]|null
      * @psalm-return Collection|null
      */
-    private function loadContentModels(string $parentTable, int $parentId): ?Collection
+    private function loadContentModels(string $parentTable, int $parentId): Collection|null
     {
         $constraints = ['.pid=?', 'FIND_IN_SET( .type, \'bs_tab_start,bs_tab_separator,bs_tab_end\')'];
         $values      = [$parentId, $parentTable];

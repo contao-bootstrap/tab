@@ -36,17 +36,17 @@ $GLOBALS['TL_DCA']['tl_content']['metapalettes']['bs_tab_end'] = [
  */
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_parent'] = [
-    'exclude'          => true,
-    'inputType'        => 'select',
-    'reference'        => &$GLOBALS['TL_LANG']['tl_content'],
-    'eval'             => [
+    'exclude'   => true,
+    'inputType' => 'select',
+    'reference' => &$GLOBALS['TL_LANG']['tl_content'],
+    'eval'      => [
         'mandatory'          => true,
         'includeBlankOption' => true,
         'chosen'             => true,
         'doNotCopy'          => true,
         'tl_class'           => 'w50',
     ],
-    'sql'              => "int(10) unsigned NOT NULL default '0'",
+    'sql'       => "int(10) unsigned NOT NULL default '0'",
 ];
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_name'] = [
@@ -58,38 +58,46 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tab_name'] = [
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['bs_tabs'] = [
     'exclude'   => true,
-    'inputType' => 'multiColumnWizard',
+    'inputType' => 'group',
+    'palette'   => ['type', 'title', 'cssId', 'active'],
+    'fields'    => [
+        'type'   => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_type'],
+            'exclude'   => true,
+            'inputType' => 'select',
+            'options'   => ['dropdown', 'child'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_type'],
+            'eval'      => [
+                'includeBlankOption' => true,
+                'chosen'             => true,
+                'tl_class'           => 'w50',
+            ],
+        ],
+        'title'  => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_title'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => [
+                'mandatory' => true,
+                'tl_class'  => 'w50',
+            ],
+        ],
+        'cssId'  => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_cssId'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => ['tl_class' => 'w50'],
+        ],
+        'active' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_active'],
+            'exclude'   => true,
+            'inputType' => 'checkbox',
+            'eval'      => ['tl_class' => 'w50 m12'],
+        ],
+    ],
     'eval'      => [
         'tl_class'       => 'clr lng bs-tabs',
         'submitOnChange' => true,
-        'columnFields'   => [
-            'type'   => [
-                'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_type'],
-                'exclude'   => true,
-                'inputType' => 'select',
-                'options'   => ['dropdown', 'child'],
-                'reference' => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_type'],
-                'eval'      => ['includeBlankOption' => true, 'style' => 'width: 140px;', 'chosen' => true],
-            ],
-            'title'  => [
-                'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_title'],
-                'exclude'   => true,
-                'inputType' => 'text',
-                'eval'      => ['mandatory' => true],
-            ],
-            'cssId'  => [
-                'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_cssId'],
-                'exclude'   => true,
-                'inputType' => 'text',
-                'eval'      => [],
-            ],
-            'active' => [
-                'label'     => &$GLOBALS['TL_LANG']['tl_content']['bs_tabs_active'],
-                'exclude'   => true,
-                'inputType' => 'checkbox',
-                'eval'      => [],
-            ],
-        ],
     ],
     'sql'       => 'blob NULL',
 ];
