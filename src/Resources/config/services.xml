@@ -6,7 +6,7 @@
     <services>
         <service id="contao_bootstrap.tab.tab_registry" class="ContaoBootstrap\Tab\View\Tab\TabRegistry" />
 
-        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabEndElementController">
+        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabEndElementController" autoconfigure="true">
             <argument type="service" id="netzmacht.contao_toolkit.template_renderer"/>
             <argument type="service" id="netzmacht.contao_toolkit.routing.scope_matcher"/>
             <argument type="service" id="netzmacht.contao_toolkit.response_tagger"/>
@@ -18,7 +18,7 @@
             <argument type="service" id="contao_bootstrap.grid.grid_provider" on-invalid="ignore"/>
         </service>
 
-        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabSeparatorElementController">
+        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabSeparatorElementController" autoconfigure="true">
             <argument type="service" id="netzmacht.contao_toolkit.template_renderer"/>
             <argument type="service" id="netzmacht.contao_toolkit.routing.scope_matcher"/>
             <argument type="service" id="netzmacht.contao_toolkit.response_tagger"/>
@@ -30,7 +30,7 @@
             <argument type="service" id="contao_bootstrap.grid.grid_provider" on-invalid="ignore"/>
         </service>
 
-        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabStartElementController">
+        <service id="ContaoBootstrap\Tab\Component\ContentElement\TabStartElementController" autoconfigure="true">
             <argument type="service" id="netzmacht.contao_toolkit.template_renderer"/>
             <argument type="service" id="netzmacht.contao_toolkit.routing.scope_matcher"/>
             <argument type="service" id="netzmacht.contao_toolkit.response_tagger"/>

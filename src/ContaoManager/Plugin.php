@@ -11,6 +11,7 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use ContaoBootstrap\Core\ContaoBootstrapCoreBundle;
 use ContaoBootstrap\Grid\ContaoBootstrapGridBundle;
 use ContaoBootstrap\Tab\ContaoBootstrapTabBundle;
+use Override;
 
 use function class_exists;
 
@@ -19,6 +20,7 @@ final class Plugin implements BundlePluginInterface
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function getBundles(ParserInterface $parser): array
     {
         $loadAfter = [ContaoCoreBundle::class, ContaoBootstrapCoreBundle::class];

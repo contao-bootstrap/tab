@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\Component\ContentElement;
 
-use Contao\CoreBundle\ServiceAnnotation\ContentElement;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\Model;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/** @ContentElement("bs_tab_end", category="bootstrap_tabs", template="ce_bs_tab_end") */
+#[AsContentElement('bs_tab_end', 'bootstrap_tabs', 'ce_bs_tab_end')]
 final class TabEndElementController extends AbstractTabElementController
 {
     /** {@inheritDoc} */
+    #[Override]
     protected function preGenerate(
         Request $request,
         Model $model,
@@ -30,6 +32,7 @@ final class TabEndElementController extends AbstractTabElementController
     }
 
     /** {@inheritDoc} */
+    #[Override]
     protected function prepareTemplateData(array $data, Request $request, Model $model): array
     {
         $data         = parent::prepareTemplateData($data, $request, $model);

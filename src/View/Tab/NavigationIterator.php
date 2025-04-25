@@ -7,6 +7,7 @@ namespace ContaoBootstrap\Tab\View\Tab;
 use ContaoBootstrap\Tab\View\Tab\Item\Dropdown;
 use ContaoBootstrap\Tab\View\Tab\Item\NavItem;
 use Iterator;
+use Override;
 use RuntimeException;
 
 use function current;
@@ -63,6 +64,7 @@ final class NavigationIterator implements Iterator
     /**
      * Get the current item.
      */
+    #[Override]
     public function current(): NavItem|null
     {
         if ($this->currentItem instanceof Dropdown) {
@@ -75,6 +77,7 @@ final class NavigationIterator implements Iterator
     /**
      * Get the nex item.
      */
+    #[Override]
     public function next(): void
     {
         if ($this->currentItem instanceof Dropdown) {
@@ -101,11 +104,13 @@ final class NavigationIterator implements Iterator
      *
      * @throws RuntimeException Method is not supported.
      */
+    #[Override]
     public function key(): mixed
     {
         throw new RuntimeException('Method key() not supported.');
     }
 
+    #[Override]
     public function valid(): bool
     {
         if ($this->currentItem instanceof Dropdown) {
@@ -115,6 +120,7 @@ final class NavigationIterator implements Iterator
         return $this->currentItem instanceof NavItem;
     }
 
+    #[Override]
     public function rewind(): void
     {
         $this->items               = $this->navigation->items();

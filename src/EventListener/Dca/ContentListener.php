@@ -13,6 +13,7 @@ use Contao\StringUtil;
 use Netzmacht\Contao\Toolkit\Data\Model\RepositoryManager;
 use Netzmacht\Contao\Toolkit\Dca\DcaManager;
 use Netzmacht\Contao\Toolkit\Dca\Listener\AbstractListener;
+use Override;
 use stdClass;
 
 use function array_unshift;
@@ -29,6 +30,7 @@ final class ContentListener extends AbstractListener
         parent::__construct($dcaManager);
     }
 
+    #[Override]
     public static function getName(): string
     {
         return 'tl_content';
@@ -86,6 +88,7 @@ final class ContentListener extends AbstractListener
 
         if ($collection instanceof Collection) {
             foreach ($collection as $model) {
+                /** @psalm-suppress UndefinedMagicPropertyFetch */
                 $options[$model->id] = sprintf(
                     '%s [%s]',
                     $model->bs_tab_name,
@@ -252,6 +255,9 @@ final class ContentListener extends AbstractListener
      * @param ContentModel|Result|stdClass $current Current content model.
      *
      * @return ContentModel[]
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     protected function getNextElements(ContentModel|Result|stdClass $current): array
     {

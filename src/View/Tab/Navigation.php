@@ -7,6 +7,7 @@ namespace ContaoBootstrap\Tab\View\Tab;
 use Contao\StringUtil;
 use ContaoBootstrap\Tab\View\Tab\Item\Dropdown;
 use ContaoBootstrap\Tab\View\Tab\Item\NavItem;
+use Override;
 
 use function in_array;
 
@@ -64,6 +65,7 @@ final class Navigation implements ItemList
         return $navigation;
     }
 
+    #[Override]
     public function addItem(NavItem $item): ItemList
     {
         $this->items[] = $item;
@@ -74,6 +76,7 @@ final class Navigation implements ItemList
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function items(): array
     {
         return $this->items;

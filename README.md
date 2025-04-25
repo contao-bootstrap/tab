@@ -20,14 +20,8 @@ See [changelog](CHANGELOG.md)
 Requirements
 ------------
 
-<<<<<<< HEAD
- - PHP ^7.4 || ^8.0
- - Contao ^4.9
-=======
 - PHP ^8.1
-- Contao ^4.13 || ^5.0
->>>>>>> 03751c7 (Adopt for bootstrap 5)
-
+- Contao ^4.13 || ^5.3
 
 Install
 -------

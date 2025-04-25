@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <psalm
-        errorLevel="8"
+        errorLevel="3"
         hideExternalErrors="true"
+        findUnusedCode="false"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
@@ -11,13 +12,6 @@
     </projectFiles>
 
     <issueHandlers>
-        <InternalMethod>
-            <errorLevel type="suppress">
-                <referencedMethod name="Contao\CoreBundle\Framework\ContaoFramework::getAdapter"/>
-                <referencedMethod name="Contao\CoreBundle\Framework\Adapter::__call"/>
-            </errorLevel>
-        </InternalMethod>
-
         <DeprecatedMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="Doctrine\DBAL\Connection::getSchemaManager"/>

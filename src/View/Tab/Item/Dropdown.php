@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ContaoBootstrap\Tab\View\Tab\Item;
 
 use ContaoBootstrap\Tab\View\Tab\ItemList;
+use Override;
 
 final class Dropdown extends NavItem implements ItemList
 {
@@ -18,11 +19,13 @@ final class Dropdown extends NavItem implements ItemList
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function items(): array
     {
         return $this->items;
     }
 
+    #[Override]
     public function addItem(NavItem $item): ItemList
     {
         $this->items[] = $item;
@@ -30,6 +33,7 @@ final class Dropdown extends NavItem implements ItemList
         return $this;
     }
 
+    #[Override]
     public function active(): bool
     {
         foreach ($this->items as $item) {
