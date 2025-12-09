@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Translations are managed automatically using Transifex. To create a new translation
- * or to help to maintain an existing one, please register at transifex.com.
- *
- * Last-updated: 2018-08-24T11:24:06+00:00
- */
+declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['CTE']['bootstrap_tabs']        = 'Tab-Elemente';
 $GLOBALS['TL_LANG']['CTE']['bs_tab_end']['0']       = 'Tab-Endelement';
