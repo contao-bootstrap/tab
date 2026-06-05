@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ContaoBootstrap\Tab\EventListener\Hook;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use ContaoBootstrap\Tab\EventListener\Dca\ParentFixContentParentRelationsListener;
 use Netzmacht\Contao\Toolkit\Assertion\AssertionFailed;
 use Netzmacht\Contao\Toolkit\Dca\DcaManager;
@@ -41,11 +42,7 @@ final class RegisterFixContentParentRelationsFixerListener
         $this->supportedDrivers = $supportedDrivers;
     }
 
-    /**
-     * Handle the loadDataContainer callback.
-     *
-     * @param string $tableName The name of the table which data container is loaded.
-     */
+    #[AsHook('loadDataContainer')]
     public function onLoadDataContainer(string $tableName): void
     {
         try {

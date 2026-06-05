@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ContaoBootstrap\Tab\EventListener\Dca;
 
 use Contao\ContentModel;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\Database\Result;
 use Contao\DataContainer;
 use Netzmacht\Contao\Toolkit\Data\Model\RepositoryManager;
@@ -29,13 +29,7 @@ final class ContentFixParentRelationListener
         $this->repositoryManager = $repositoryManager;
     }
 
-    /**
-     * Handle the onsubmit callback to automatically select closest parent id.
-     *
-     * @param DataContainer $dataContainer Data container driver.
-     *
-     * @Callback(table="tl_content", target="config.onsubmit")
-     */
+    #[AsCallback(table: 'tl_content', target: 'config.onsubmit')]
     public function onSubmit(DataContainer $dataContainer): void
     {
         if (! $dataContainer->activeRecord) {
@@ -55,13 +49,7 @@ final class ContentFixParentRelationListener
         $this->fixContentElement($dataContainer->activeRecord);
     }
 
-    /**
-     * Handle the oncopy callback.
-     *
-     * @param int|string $elementId Element id of copied element.
-     *
-     * @Callback(table="tl_content", target="config.oncopy")
-     */
+    #[AsCallback(table: 'tl_content', target: 'config.oncopy')]
     public function onCopy(int|string $elementId): void
     {
         $contentModel = $this->repositoryManager->getRepository(ContentModel::class)->find((int) $elementId);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ContaoBootstrap\Tab\EventListener\Dca;
 
 use Contao\ContentModel;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\Model\Collection;
@@ -36,11 +36,7 @@ final class ContentListener extends AbstractListener
         return 'tl_content';
     }
 
-    /**
-     * Initialize the dca.
-     *
-     * @Callback(table="tl_content", target="config.onload")
-     */
+    #[AsCallback(table: 'tl_content', target: 'config.onload')]
     public function initializeDca(): void
     {
         if (! $this->getDefinition()->has(['fields', 'bs_grid'])) {
@@ -52,7 +48,7 @@ final class ContentListener extends AbstractListener
             static function (array|null $value): array {
                 $value   = (array) $value;
                 $value[] = [
-                    'contao_bootstrap.tab.listener.dca.content',
+                    ContentListener::class,
                     'configureGridField',
                 ];
 
@@ -62,13 +58,11 @@ final class ContentListener extends AbstractListener
     }
 
     /**
-     * Get all tab parent options.
-     *
      * @return array<int|string,string>
      *
      * @SuppressWarnings(PHPMD.Superglobals)
-     * @Callback(table="tl_content", target="fields.bs_tab_parent.options")
      */
+    #[AsCallback(table: 'tl_content', target: 'fields.bs_tab_parent.options')]
     public function getTabParentOptions(DataContainer $dataContainer): array
     {
         $columns = [
@@ -115,13 +109,7 @@ final class ContentListener extends AbstractListener
         return $value;
     }
 
-    /**
-     * Generate the columns.
-     *
-     * @param DataContainer $dataContainer Data container driver.
-     *
-     * @Callback(table="tl_content", target="config.onsubmit")
-     */
+    #[AsCallback(table: 'tl_content', target: 'config.onsubmit')]
     public function generateColumns(DataContainer $dataContainer): void
     {
         if (! $dataContainer->activeRecord || $dataContainer->activeRecord->type !== 'bs_tab_start') {

@@ -1,0 +1,46 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    contao_bootstrap.tab.tab_registry:
+        class: ContaoBootstrap\Tab\View\Tab\TabRegistry
+
+    ContaoBootstrap\Tab\Component\ContentElement\TabEndElementController:
+        arguments:
+            - '@netzmacht.contao_toolkit.template_renderer'
+            - '@netzmacht.contao_toolkit.routing.scope_matcher'
+            - '@netzmacht.contao_toolkit.response_tagger'
+            - '@contao.security.token_checker'
+            - '@translator'
+            - '@contao_bootstrap.core.helper.color_rotate'
+            - '@contao_bootstrap.tab.tab_registry'
+            - '@netzmacht.contao_toolkit.repository_manager'
+            - '@?contao_bootstrap.grid.grid_provider'
+
+    ContaoBootstrap\Tab\Component\ContentElement\TabSeparatorElementController:
+        arguments:
+            - '@netzmacht.contao_toolkit.template_renderer'
+            - '@netzmacht.contao_toolkit.routing.scope_matcher'
+            - '@netzmacht.contao_toolkit.response_tagger'
+            - '@contao.security.token_checker'
+            - '@translator'
+            - '@contao_bootstrap.core.helper.color_rotate'
+            - '@contao_bootstrap.tab.tab_registry'
+            - '@netzmacht.contao_toolkit.repository_manager'
+            - '@?contao_bootstrap.grid.grid_provider'
+
+    ContaoBootstrap\Tab\Component\ContentElement\TabStartElementController:
+        arguments:
+            - '@netzmacht.contao_toolkit.template_renderer'
+            - '@netzmacht.contao_toolkit.routing.scope_matcher'
+            - '@netzmacht.contao_toolkit.response_tagger'
+            - '@contao.security.token_checker'
+            - '@translator'
+            - '@contao_bootstrap.core.helper.color_rotate'
+            - '@contao_bootstrap.tab.tab_registry'
+            - '@netzmacht.contao_toolkit.repository_manager'
+            - '@?contao_bootstrap.grid.grid_provider'
+
+    ContaoBootstrap\Tab\Migration\TabsGroupIndexMigration:
+        arguments:
+            - '@database_connection'

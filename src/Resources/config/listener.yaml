@@ -1,0 +1,24 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    ContaoBootstrap\Tab\EventListener\Dca\ContentListener:
+        arguments:
+            - '@netzmacht.contao_toolkit.dca.manager'
+            - '@netzmacht.contao_toolkit.repository_manager'
+
+    ContaoBootstrap\Tab\EventListener\Hook\RegisterFixContentParentRelationsFixerListener:
+        arguments:
+            - '@netzmacht.contao_toolkit.dca.manager'
+            - '%contao_bootstrap.tab.content_parent_drivers%'
+
+    ContaoBootstrap\Tab\EventListener\Dca\ContentFixParentRelationListener:
+        arguments:
+            - '@netzmacht.contao_toolkit.repository_manager'
+
+    ContaoBootstrap\Tab\EventListener\Dca\ParentFixContentParentRelationsListener:
+        arguments:
+            - '@database_connection'
+            - '@netzmacht.contao_toolkit.dca.manager'
+            - '@netzmacht.contao_toolkit.repository_manager'
+            - '@netzmacht.contao_toolkit.contao.input_adapter'
