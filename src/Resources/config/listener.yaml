@@ -17,6 +17,7 @@ services:
             - '@netzmacht.contao_toolkit.repository_manager'
 
     ContaoBootstrap\Tab\EventListener\Dca\ParentFixContentParentRelationsListener:
+        public: true
         arguments:
             - '@database_connection'
             - '@netzmacht.contao_toolkit.dca.manager'
