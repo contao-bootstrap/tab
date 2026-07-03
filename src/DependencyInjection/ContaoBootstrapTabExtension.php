@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class ContaoBootstrapTabExtension extends Extension
 {
+    /** {@inheritDoc} */
     #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
